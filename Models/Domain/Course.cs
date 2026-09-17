@@ -17,5 +17,5 @@ public class Course
     [MaxLength(120)]
     public string Department { get; set; } = string.Empty;
 
-    public ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
+    public ICollection<CourseOffering> Offerings { get; set; } = new List<CourseOffering>();
 }

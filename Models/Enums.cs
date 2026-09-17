@@ -28,3 +28,5 @@ public enum AttendanceRisk
     AtRisk,
     Critical
 }
+
+public enum AttendanceStatus { Present, Absent, Leave, Late }

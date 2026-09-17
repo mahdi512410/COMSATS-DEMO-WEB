@@ -1,75 +1,43 @@
 using System.ComponentModel.DataAnnotations;
 using COMSATS.StudentPortal.Web.Models.Domain;
 using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace COMSATS.StudentPortal.Web.Models;
 
 /// <summary>
-/// A student account. UserName holds the registration ID (e.g. FA21-BCS-084) which
-/// doubles as the sign-in identifier shown on the login screen.
+/// Identity shared by all portal actors. Academic/personnel details live in a profile.
 /// </summary>
 public class ApplicationUser : IdentityUser
 {
     [Required, MaxLength(120)]
     public string FullName { get; set; } = string.Empty;
 
-    [Required, MaxLength(20)]
-    public string RegistrationId { get; set; } = string.Empty;
-
-    [MaxLength(120)]
-    public string FatherName { get; set; } = string.Empty;
-
-    [MaxLength(20)]
-    public string? NationalIdMasked { get; set; }
-
-    public DateOnly? DateOfBirth { get; set; }
-
-    [MaxLength(20)]
-    public string Gender { get; set; } = string.Empty;
-
-    [MaxLength(10)]
-    public string BloodGroup { get; set; } = string.Empty;
-
-    [Required, MaxLength(160)]
-    public string ProgramName { get; set; } = string.Empty;
-
-    [Required, MaxLength(120)]
-    public string Department { get; set; } = string.Empty;
-
-    [Required, MaxLength(120)]
-    public string CampusName { get; set; } = string.Empty;
-
-    public int CurrentSemester { get; set; }
-
-    [MaxLength(40)]
-    public string EnrollmentSession { get; set; } = string.Empty;
-
-    [MaxLength(200)]
-    public string CurrentAddress { get; set; } = string.Empty;
-
-    [MaxLength(200)]
-    public string PermanentAddress { get; set; } = string.Empty;
-
     [MaxLength(120)]
     public string PersonalEmail { get; set; } = string.Empty;
+    public StudentProfile? StudentProfile { get; set; }
+    public TeacherProfile? TeacherProfile { get; set; }
 
-    [MaxLength(120)]
-    public string EmergencyContactName { get; set; } = string.Empty;
-
-    [MaxLength(30)]
-    public string EmergencyContactPhone { get; set; } = string.Empty;
-
-    public int? AdvisorId { get; set; }
-    public Advisor? Advisor { get; set; }
-
-    public AcademicStanding AcademicStanding { get; set; } = AcademicStanding.Regular;
-
-    public int TotalCreditsRequired { get; set; } = 134;
-
-    public ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
-    public ICollection<SemesterResult> SemesterResults { get; set; } = new List<SemesterResult>();
-    public ICollection<FeeChallan> FeeChallans { get; set; } = new List<FeeChallan>();
-    public ICollection<TimetableEntry> TimetableEntries { get; set; } = new List<TimetableEntry>();
+    // Transitional presentation aliases keep the existing student Razor templates compiling;
+    // persistence remains exclusively in StudentProfile.
+    [NotMapped] public string RegistrationId => StudentProfile?.RegistrationId ?? TeacherProfile?.EmployeeId ?? string.Empty;
+    [NotMapped] public string FatherName => StudentProfile?.FatherName ?? string.Empty;
+    [NotMapped] public string? NationalIdMasked => StudentProfile?.NationalIdMasked;
+    [NotMapped] public DateOnly? DateOfBirth => StudentProfile?.DateOfBirth;
+    [NotMapped] public string Gender => StudentProfile?.Gender ?? string.Empty;
+    [NotMapped] public string BloodGroup => StudentProfile?.BloodGroup ?? string.Empty;
+    [NotMapped] public string ProgramName => StudentProfile?.ProgramName ?? string.Empty;
+    [NotMapped] public string Department => StudentProfile?.Department ?? TeacherProfile?.Department ?? string.Empty;
+    [NotMapped] public string CampusName => StudentProfile?.CampusName ?? TeacherProfile?.CampusName ?? string.Empty;
+    [NotMapped] public int CurrentSemester => StudentProfile?.CurrentSemester ?? 0;
+    [NotMapped] public string EnrollmentSession => StudentProfile?.EnrollmentSession ?? string.Empty;
+    [NotMapped] public string CurrentAddress => StudentProfile?.CurrentAddress ?? string.Empty;
+    [NotMapped] public string PermanentAddress => StudentProfile?.PermanentAddress ?? string.Empty;
+    [NotMapped] public string EmergencyContactName => StudentProfile?.EmergencyContactName ?? string.Empty;
+    [NotMapped] public string EmergencyContactPhone => StudentProfile?.EmergencyContactPhone ?? string.Empty;
+    [NotMapped] public AcademicStanding AcademicStanding => StudentProfile?.AcademicStanding ?? AcademicStanding.Regular;
+    [NotMapped] public int TotalCreditsRequired => StudentProfile?.TotalCreditsRequired ?? 0;
+    [NotMapped] public TeacherProfile? Advisor => StudentProfile?.AdvisorTeacherProfile;
 
     /// <summary>Two-letter initials used to render an avatar without a stock photo.</summary>
     public string Initials

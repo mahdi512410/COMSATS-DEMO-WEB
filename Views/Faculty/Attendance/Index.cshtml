@@ -1,0 +1,8 @@
+@{ ViewData["Title"] = "Attendance"; }
+<section class="p-6"><h1 class="text-2xl font-bold">Attendance</h1><div id="faculty-content" class="mt-6">Loading roster…</div></section>
+<script>
+const id=new URLSearchParams(location.search).get('offeringId'); const host=document.querySelector('#faculty-content');
+if(!id) fetch('/api/faculty/offerings').then(r=>r.json()).then(x=>host.innerHTML=x.map(o=>`<p><a class="text-primary underline" href="?offeringId=${o.id}">${o.code} — ${o.title}</a></p>`).join(''));
+else fetch(`/api/faculty/offerings/${id}/roster`).then(r=>r.json()).then(rows=>host.innerHTML=`<label>Date <input id="date" type="date" value="${new Date().toISOString().slice(0,10)}"></label><table class="mt-4 w-full"><tbody>${rows.map(x=>`<tr data-id="${x.studentId}"><td>${x.registrationId}</td><td>${x.fullName}</td><td><select><option>Present</option><option>Absent</option><option>Leave</option><option>Late</option></select></td></tr>`).join('')}</tbody></table><button class="btn-primary px-4 py-2" onclick="save()">Finalize attendance</button>`);
+async function save(){let records=[...document.querySelectorAll('tr[data-id]')].map(x=>({studentProfileId:+x.dataset.id,status:x.querySelector('select').value}));let r=await fetch(`/api/faculty/offerings/${id}/attendance`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({date:date.value,sessionType:'Lecture',finalize:true,records})});alert(r.ok?'Attendance saved.':await r.text())}
+</script>

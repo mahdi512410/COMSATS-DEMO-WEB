@@ -1,0 +1,2 @@
+@{ ViewData["Title"] = "Teaching Timetable"; }
+<section class="p-6"><h1 class="text-2xl font-bold">Teaching Timetable</h1><div id="faculty-content">Loading…</div></section><script>fetch('/api/faculty/dashboard').then(r=>r.json()).then(d=>document.querySelector('#faculty-content').innerHTML=d.todayClasses.map(x=>`<p>${x.start}–${x.end}: ${x.code} ${x.title}, ${x.room}</p>`).join('')||'No classes today.')</script>

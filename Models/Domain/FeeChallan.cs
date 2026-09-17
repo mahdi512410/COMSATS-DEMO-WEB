@@ -8,8 +8,8 @@ public class FeeChallan
     public int Id { get; set; }
 
     [Required]
-    public string ApplicationUserId { get; set; } = string.Empty;
-    public ApplicationUser? Student { get; set; }
+    public int StudentProfileId { get; set; }
+    public StudentProfile? Student { get; set; }
 
     [Required, MaxLength(20)]
     public string ChallanNumber { get; set; } = string.Empty;

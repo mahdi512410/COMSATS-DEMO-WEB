@@ -3,6 +3,7 @@ using COMSATS.StudentPortal.Web.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace COMSATS.StudentPortal.Web.Controllers;
 
@@ -48,7 +49,10 @@ public class AccountController : Controller
             return View(model);
         }
 
-        if (!string.Equals(user.CampusName, model.CampusName, StringComparison.OrdinalIgnoreCase))
+        var campus = await _userManager.Users.Where(x => x.Id == user.Id)
+            .Select(x => x.StudentProfile != null ? x.StudentProfile.CampusName : x.TeacherProfile!.CampusName)
+            .FirstAsync();
+        if (!string.Equals(campus, model.CampusName, StringComparison.OrdinalIgnoreCase))
         {
             ModelState.AddModelError(nameof(model.CampusName), "That account isn't registered under the selected campus.");
             return View(model);
@@ -73,7 +77,9 @@ public class AccountController : Controller
             return Redirect(model.ReturnUrl);
         }
 
-        return RedirectToAction("Index", "Dashboard");
+        return await _userManager.IsInRoleAsync(user, "Teacher")
+            ? Redirect("/Faculty/Dashboard")
+            : RedirectToAction("Index", "Dashboard");
     }
 
     [HttpPost]
