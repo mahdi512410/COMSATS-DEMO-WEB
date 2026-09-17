@@ -1,0 +1,15 @@
+@{
+    ViewData["Title"] = "Something Went Wrong";
+    Layout = "_LoginLayout";
+}
+
+<div class="w-full max-w-md bg-surface rounded-xl shadow-raised p-8 text-center">
+    <div class="w-11 h-11 rounded-lg bg-critical-surface flex items-center justify-center mb-4 mx-auto">
+        <span class="material-symbols-outlined text-critical">error</span>
+    </div>
+    <h1 class="text-xl font-bold text-on-surface mb-2">Something went wrong</h1>
+    <p class="text-sm text-on-surface-variant leading-relaxed mb-6">
+        The portal hit an unexpected error. Please try again, and contact the IT Helpdesk if it persists.
+    </p>
+    <a asp-controller="Home" asp-action="Index" class="btn-secondary w-full h-10 rounded-md text-sm font-medium flex items-center justify-center">Back to Portal</a>
+</div>

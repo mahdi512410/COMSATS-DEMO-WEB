@@ -1,0 +1,268 @@
+@model ProfileViewModel
+@{
+    ViewData["Title"] = "Student Profile";
+    var s = Model.Student;
+}
+
+<div class="max-w-[1440px] w-full mx-auto px-4 md:px-6 py-6 flex flex-col gap-6">
+
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-3 pb-3 border-b border-surface-container-high">
+        <div>
+            <div class="flex items-center gap-1.5 text-xs text-on-surface-variant uppercase tracking-wider mb-1">
+                <span>Academic Affairs</span><span>/</span>
+                <span class="text-primary font-semibold">Institutional Registry</span><span>/</span>
+                <span>Student Dossier</span>
+            </div>
+            <h1 class="text-2xl md:text-3xl font-bold text-on-surface tracking-tight">Student Profile &amp; Academic Record</h1>
+        </div>
+        <div class="flex items-center gap-2">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface-container text-on-surface-variant text-xs">
+                <span class="w-1.5 h-1.5 rounded-full bg-gold"></span> Term: Fall 2024 (Active)
+            </span>
+        </div>
+    </div>
+
+    <!-- Identity banner -->
+    <section class="bg-surface rounded-xl shadow-card overflow-hidden">
+        <div class="h-1.5 w-full bg-gold"></div>
+        <div class="p-5 md:p-6 flex flex-col xl:flex-row gap-5 xl:items-center justify-between">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                <div class="relative flex-shrink-0">
+                    <span class="avatar-initials w-24 h-24 rounded-xl text-2xl">@s.Initials</span>
+                    <span class="absolute -bottom-1.5 -right-1.5 flex items-center justify-center w-6 h-6 rounded-full bg-gold text-primary-deep shadow-card" title="Verified Institutional Identity">
+                        <span class="material-symbols-outlined text-[16px]">verified</span>
+                    </span>
+                </div>
+                <div>
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span class="text-xl font-bold text-on-surface">@s.FullName</span>
+                        <span class="px-2 py-0.5 rounded bg-surface-container-high text-primary text-xs font-bold tabular-nums">@s.RegistrationId</span>
+                        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-surface-container text-on-surface-variant text-xs">
+                            <span class="w-1.5 h-1.5 rounded-full bg-success"></span> Regular / Active Status
+                        </span>
+                    </div>
+                    <p class="text-sm font-semibold text-primary mt-1">@s.ProgramName</p>
+                    <div class="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1 text-xs text-on-surface-variant">
+                        <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm text-primary">account_balance</span>Department of @s.Department</span>
+                        <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm text-gold">location_on</span>@s.CampusName</span>
+                        <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm text-on-surface-muted">event</span>Session: @s.EnrollmentSession</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 border-t border-surface-container-high divide-x divide-surface-container-high">
+            <div class="p-4 text-center">
+                <div class="text-xs text-on-surface-variant mb-0.5">Academic Standing</div>
+                <div class="text-sm font-semibold text-gold-deep">@s.AcademicStanding</div>
+            </div>
+            <div class="p-4 text-center">
+                <div class="text-xs text-on-surface-variant mb-0.5">Current Semester</div>
+                <div class="text-sm font-semibold text-on-surface">@s.CurrentSemester of @(s.CurrentSemester <= 8 ? 8 : s.CurrentSemester)</div>
+            </div>
+            <div class="p-4 text-center">
+                <div class="text-xs text-on-surface-variant mb-0.5">Fee Clearance</div>
+                <div class="text-sm font-semibold text-success">Dues Cleared</div>
+            </div>
+            <div class="p-4 text-center">
+                <div class="text-xs text-on-surface-variant mb-0.5">Degree Type</div>
+                <div class="text-sm font-semibold text-on-surface">Undergraduate (4-Year)</div>
+            </div>
+        </div>
+    </section>
+
+    <div class="grid grid-cols-1 xl:grid-cols-[1fr_340px] gap-6">
+        <div class="flex flex-col gap-6">
+            <!-- Personal & contact -->
+            <section class="bg-surface rounded-xl shadow-card p-5 md:p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-base font-semibold text-on-surface flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                        Personal &amp; Contact Information
+                    </h2>
+                    <span class="text-xs text-on-surface-muted">SEC-01 // Identity</span>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-5 text-sm">
+                    <div>
+                        <div class="text-xs text-on-surface-variant mb-0.5">Full Legal Name</div>
+                        <div class="text-on-surface">@s.FullName</div>
+                    </div>
+                    <div>
+                        <div class="text-xs text-on-surface-variant mb-0.5">Father's Full Name</div>
+                        <div class="text-on-surface">@s.FatherName</div>
+                    </div>
+                    <div>
+                        <div class="text-xs text-on-surface-variant mb-0.5">CNIC / National ID</div>
+                        <div class="text-on-surface tabular-nums">@s.NationalIdMasked</div>
+                    </div>
+                    <div>
+                        <div class="text-xs text-on-surface-variant mb-0.5">Date of Birth</div>
+                        <div class="text-on-surface">@(s.DateOfBirth?.ToString("dd MMMM yyyy"))</div>
+                    </div>
+                    <div>
+                        <div class="text-xs text-on-surface-variant mb-0.5">Gender</div>
+                        <div class="text-on-surface">@s.Gender</div>
+                    </div>
+                    <div>
+                        <div class="text-xs text-on-surface-variant mb-0.5">Blood Group</div>
+                        <div class="text-on-surface font-semibold">@s.BloodGroup</div>
+                    </div>
+                </div>
+
+                <h3 class="text-xs font-semibold uppercase tracking-wider text-on-surface-variant mb-2">Electronic Communications &amp; Phones</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
+                    <div class="rounded-md bg-surface-container-low p-3">
+                        <div class="text-xs text-on-surface-variant">Institutional University Email</div>
+                        <div class="text-sm font-medium text-on-surface break-all">@s.Email</div>
+                    </div>
+                    <div class="rounded-md bg-surface-container-low p-3">
+                        <div class="text-xs text-on-surface-variant">Personal Primary Email</div>
+                        <div class="text-sm font-medium text-on-surface break-all">@s.PersonalEmail</div>
+                    </div>
+                    <div class="rounded-md bg-surface-container-low p-3">
+                        <div class="text-xs text-on-surface-variant">Registered Mobile Phone</div>
+                        <div class="text-sm font-medium text-on-surface tabular-nums">@s.PhoneNumber</div>
+                    </div>
+                    <div class="rounded-md bg-surface-container-low p-3">
+                        <div class="text-xs text-on-surface-variant">Emergency / Guardian Contact</div>
+                        <div class="text-sm font-medium text-on-surface tabular-nums">@s.EmergencyContactPhone</div>
+                        <div class="text-xs text-on-surface-variant">@s.EmergencyContactName</div>
+                    </div>
+                </div>
+
+                <h3 class="text-xs font-semibold uppercase tracking-wider text-on-surface-variant mb-2">Residential Registry</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div class="flex items-start gap-2">
+                        <span class="material-symbols-outlined text-base text-primary mt-0.5">home</span>
+                        <div>
+                            <div class="text-xs text-on-surface-variant">Current Residential Address</div>
+                            <div class="text-sm text-on-surface">@s.CurrentAddress</div>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <span class="material-symbols-outlined text-base text-gold-deep mt-0.5">flag</span>
+                        <div>
+                            <div class="text-xs text-on-surface-variant">Permanent Domicile Address</div>
+                            <div class="text-sm text-on-surface">@s.PermanentAddress</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Academic progress -->
+            <section class="bg-surface rounded-xl shadow-card p-5 md:p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-base font-semibold text-on-surface flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                        Academic Progress &amp; Degree Audit
+                    </h2>
+                    <span class="text-xs text-on-surface-muted">HEC Criteria Verified</span>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-5">
+                    <div class="rounded-md border border-outline p-3">
+                        <div class="text-xs text-on-surface-variant">Current CGPA</div>
+                        <div class="text-xl font-bold text-gold-deep tabular-nums">@(Model.SemesterHistory.LastOrDefault()?.Cgpa.ToString("0.00") ?? "—")</div>
+                        <div class="text-xs text-on-surface-variant">Scale: 4.00 (Grade A)</div>
+                    </div>
+                    <div class="rounded-md border border-outline p-3">
+                        <div class="text-xs text-on-surface-variant">Batch Position</div>
+                        <div class="text-xl font-bold text-on-surface tabular-nums">@Model.BatchPosition<span class="text-sm font-normal text-on-surface-variant"> / @Model.BatchSize Students</span></div>
+                    </div>
+                    <div class="rounded-md border border-outline p-3">
+                        <div class="text-xs text-on-surface-variant">Completed Credits</div>
+                        <div class="text-xl font-bold text-on-surface tabular-nums">@Model.CompletedCredits <span class="text-sm font-normal text-on-surface-variant">/ @s.TotalCreditsRequired</span></div>
+                    </div>
+                </div>
+
+                <div class="mb-5">
+                    <div class="flex items-center justify-between text-xs mb-1.5">
+                        <span class="text-on-surface-variant">Overall Degree Completion (Scheme of Studies)</span>
+                        <span class="font-semibold text-on-surface tabular-nums">@Model.DegreeCompletionPercentage.ToString("0.0")% Completed</span>
+                    </div>
+                    <div class="h-2 w-full rounded-full bg-surface-container-high overflow-hidden">
+                        <div class="h-full bg-primary rounded-full" style="width: @(Model.DegreeCompletionPercentage.ToString("0.0"))%"></div>
+                    </div>
+                    <div class="flex items-center justify-between text-xs text-on-surface-muted mt-1">
+                        <span>0 Cr. (Enrollment)</span>
+                        <span>@s.TotalCreditsRequired Cr. (Graduation Target)</span>
+                    </div>
+                </div>
+
+                <h3 class="text-xs font-semibold uppercase tracking-wider text-on-surface-variant mb-2">Semester-Wise GPA Record</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="text-left text-xs uppercase tracking-wide text-on-surface-variant border-b-2 border-surface-container-high">
+                                <th class="py-2 pr-3 font-medium">Semester</th>
+                                <th class="py-2 pr-3 font-medium text-right">Cr. Earned</th>
+                                <th class="py-2 pr-3 font-medium text-right">SGPA</th>
+                                <th class="py-2 pr-3 font-medium text-right">CGPA</th>
+                                <th class="py-2 pl-3 font-medium">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var row in Model.SemesterHistory)
+                            {
+                                var pillClasses = row.StatusLabel switch
+                                {
+                                    "DeansHonorRoll" => "bg-gold-tint text-primary-deep",
+                                    "In Progress" => "bg-surface-container text-on-surface-variant",
+                                    "Probation" => "bg-warning-surface text-warning",
+                                    _ => "bg-surface-container-low text-on-surface-variant"
+                                };
+                                var displayStatus = row.StatusLabel == "DeansHonorRoll" ? "Dean's List" : row.StatusLabel;
+                                <tr class="border-b border-surface-container-low last:border-b-0">
+                                    <td class="py-2.5 pr-3 font-medium text-on-surface">@row.SemesterLabel</td>
+                                    <td class="py-2.5 pr-3 text-right tabular-nums">@row.CreditsEarned</td>
+                                    <td class="py-2.5 pr-3 text-right tabular-nums">@(row.Sgpa?.ToString("0.00") ?? "—")</td>
+                                    <td class="py-2.5 pr-3 text-right tabular-nums font-medium">@row.Cgpa.ToString("0.00")</td>
+                                    <td class="py-2.5 pl-3"><span class="px-2 py-0.5 rounded text-xs font-medium @pillClasses">@displayStatus</span></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="flex flex-col gap-6">
+            <section class="bg-surface rounded-xl shadow-card p-5">
+                <h2 class="text-base font-semibold text-on-surface flex items-center gap-2 mb-4">
+                    <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                    Academic Advisor
+                </h2>
+                @if (s.Advisor is not null)
+                {
+                    <div class="flex items-start gap-3 mb-3">
+                        <span class="avatar-initials w-11 h-11 rounded-full text-sm flex-shrink-0">@(string.Concat(s.Advisor.FullName.Split(' ', StringSplitOptions.RemoveEmptyEntries).Where((_, i) => i < 2).Select(p => p[0])))</span>
+                        <div>
+                            <p class="text-sm font-semibold text-on-surface">@s.Advisor.FullName</p>
+                            <p class="text-xs text-on-surface-variant">@s.Advisor.Title</p>
+                            <p class="text-xs text-on-surface-variant mt-1">@s.Advisor.OfficeLocation</p>
+                            <p class="text-xs text-on-surface-variant">@s.Advisor.OfficeHours</p>
+                        </div>
+                    </div>
+                    <a href="mailto:@s.Advisor.Email" class="btn-secondary w-full h-9 rounded-md text-xs font-medium flex items-center justify-center gap-1.5">
+                        <span class="material-symbols-outlined text-[16px]">mail</span> Message Advisor
+                    </a>
+                }
+                else
+                {
+                    <p class="text-sm text-on-surface-variant">No advisor has been assigned yet.</p>
+                }
+            </section>
+
+            <section class="bg-gold-tint border border-gold/40 rounded-xl p-5">
+                <h2 class="text-sm font-semibold text-primary-deep mb-1.5">Administrative Registrar Contact</h2>
+                <p class="text-xs text-primary-deep/80 leading-relaxed mb-3">
+                    For identity changes or official record correction, submit verified documents to the Office of the Registrar, Ground Floor, Central Admin Building.
+                </p>
+                <p class="text-xs font-medium text-primary-deep flex items-center gap-1.5">
+                    <span class="material-symbols-outlined text-[16px]">call</span> +92 (51) 9247000 Ext. 5042
+                </p>
+            </section>
+        </div>
+    </div>
+</div>

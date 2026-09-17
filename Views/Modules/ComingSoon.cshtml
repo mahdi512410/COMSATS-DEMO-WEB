@@ -1,0 +1,15 @@
+@{
+    ViewData["Title"] = ViewData["ModuleName"]?.ToString() ?? "Module";
+}
+
+<div class="max-w-2xl mx-auto px-4 py-16 text-center">
+    <div class="w-12 h-12 rounded-lg bg-gold-tint flex items-center justify-center mb-4 mx-auto">
+        <span class="material-symbols-outlined text-primary">construction</span>
+    </div>
+    <h1 class="text-xl font-bold text-on-surface mb-2">@ViewData["ModuleName"] is under development</h1>
+    <p class="text-sm text-on-surface-variant leading-relaxed mb-6">
+        This part of the Student Information System hasn't been built yet in this project. The Dashboard,
+        Courses &amp; Attendance, and Student Profile modules are fully functional against the database.
+    </p>
+    <a asp-controller="Dashboard" asp-action="Index" class="btn-secondary inline-flex h-10 px-4 rounded-md text-sm font-medium items-center justify-center">Back to Dashboard</a>
+</div>

@@ -1,0 +1,311 @@
+@model DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+    var cgpaRatio = Model.Cgpa <= 0 ? 0 : Math.Min(1, (double)(Model.Cgpa / 4.0m));
+    var circumference = 100.0;
+    var dash = Math.Round(cgpaRatio * circumference, 1);
+    var maxCgpaInHistory = Model.GpaHistory.Count == 0 ? 4.0m : Math.Max(4.0m, Model.GpaHistory.Max(g => g.Cgpa));
+}
+
+<div class="max-w-[1440px] w-full mx-auto px-4 md:px-6 py-6 flex flex-col gap-6">
+
+    <!-- Welcome bar -->
+    <div class="bg-surface rounded-xl shadow-card p-5 flex flex-col md:flex-row md:items-center justify-between gap-3">
+        <div>
+            <div class="flex items-center gap-2 mb-1">
+                <span class="w-2 h-2 rounded-full bg-success"></span>
+                <span class="text-xs font-medium text-on-surface-variant uppercase tracking-wider">Academic Session Active: @Model.CurrentTerm</span>
+            </div>
+            <h1 class="text-2xl md:text-3xl font-bold text-on-surface tracking-tight">Student Academic Dashboard</h1>
+            <p class="text-sm text-on-surface-variant mt-1">
+                Welcome back, <span class="font-semibold text-on-surface">@Model.Student.FullName</span>
+                <span class="mx-1.5 text-outline">|</span> @Model.Student.ProgramName (Semester @Model.Student.CurrentSemester)
+                <span class="mx-1.5 text-outline">|</span> <span class="tabular-nums">Reg: @Model.Student.RegistrationId</span>
+            </p>
+        </div>
+        <div class="flex items-center gap-3">
+            <div class="text-right">
+                <div class="text-xs text-on-surface-variant">Campus Status</div>
+                <div class="text-sm font-semibold text-on-surface flex items-center justify-end gap-1">
+                    <span class="material-symbols-outlined text-base text-success">verified</span>
+                    @Model.Student.AcademicStanding
+                </div>
+            </div>
+            <div class="h-9 w-px bg-outline"></div>
+            <button type="button" onclick="window.print()" class="btn-secondary flex items-center gap-1.5 px-4 h-9 rounded-md text-sm font-medium">
+                <span class="material-symbols-outlined text-[18px]">print</span>
+                Transcript Summary
+            </button>
+        </div>
+    </div>
+
+    <!-- Metric cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-surface rounded-xl p-5 shadow-card">
+            <div class="flex items-start justify-between">
+                <div>
+                    <span class="text-xs font-medium uppercase tracking-wider text-on-surface-variant">Cumulative GPA</span>
+                    <div class="flex items-baseline gap-1 mt-1">
+                        <span class="text-3xl font-bold text-primary tabular-nums">@Model.Cgpa.ToString("0.00")</span>
+                        <span class="text-xs text-on-surface-variant">/ 4.00</span>
+                    </div>
+                </div>
+                <div class="relative w-12 h-12">
+                    <svg class="w-full h-full -rotate-90" viewBox="0 0 36 36">
+                        <path class="text-surface-container-high" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3.5" />
+                        <path class="text-gold" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="@dash.ToString("0.0"), 100" stroke-linecap="round" stroke-width="3.5" />
+                    </svg>
+                </div>
+            </div>
+            <div class="mt-3 pt-2 border-t border-surface-container-high flex items-center justify-between text-xs">
+                <span class="px-2 py-0.5 rounded bg-gold-tint text-primary-deep font-medium">@Model.Student.AcademicStanding</span>
+                <span class="text-on-surface-variant tabular-nums">SGPA: <strong class="text-on-surface">@Model.Sgpa.ToString("0.00")</strong></span>
+            </div>
+        </div>
+
+        <div class="bg-surface rounded-xl p-5 shadow-card">
+            <div class="flex items-start justify-between">
+                <div>
+                    <span class="text-xs font-medium uppercase tracking-wider text-on-surface-variant">Overall Attendance</span>
+                    <div class="text-3xl font-bold text-on-surface mt-1 tabular-nums">@Model.OverallAttendance.ToString("0.0")%</div>
+                </div>
+                <span class="material-symbols-outlined text-2xl text-primary">fact_check</span>
+            </div>
+            <div class="mt-3 pt-2 border-t border-surface-container-high flex items-center justify-between text-xs">
+                @if (Model.OverallAttendance >= 80)
+                {
+                    <span class="px-2 py-0.5 rounded bg-success-surface text-success font-medium">Above 80%</span>
+                }
+                else
+                {
+                    <span class="px-2 py-0.5 rounded bg-warning-surface text-warning font-medium">Below Requirement</span>
+                }
+                <span class="text-on-surface-variant">Min. Required 80%</span>
+            </div>
+        </div>
+
+        <div class="bg-surface rounded-xl p-5 shadow-card">
+            <div class="flex items-start justify-between">
+                <div>
+                    <span class="text-xs font-medium uppercase tracking-wider text-on-surface-variant">Enrolled Courses</span>
+                    <div class="text-3xl font-bold text-on-surface mt-1 tabular-nums">@Model.EnrolledCourseCount</div>
+                </div>
+                <span class="material-symbols-outlined text-2xl text-primary">menu_book</span>
+            </div>
+            <div class="mt-3 pt-2 border-t border-surface-container-high flex items-center justify-between text-xs">
+                <span class="text-on-surface-variant">Credit Load</span>
+                <span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-medium tabular-nums">@Model.CreditHoursThisTerm Credit Hours</span>
+            </div>
+        </div>
+
+        <div class="bg-surface rounded-xl p-5 shadow-card">
+            <div class="flex items-start justify-between">
+                <div>
+                    <span class="text-xs font-medium uppercase tracking-wider text-on-surface-variant">Dues &amp; Ledger</span>
+                    <div class="text-2xl font-bold @(Model.FeeStatusLabel == "Cleared" ? "text-success" : "text-warning") mt-1 flex items-center gap-1.5">
+                        @Model.FeeStatusLabel
+                        @if (Model.FeeStatusLabel == "Cleared")
+                        {
+                            <span class="material-symbols-outlined text-xl">check_circle</span>
+                        }
+                    </div>
+                </div>
+                <span class="material-symbols-outlined text-2xl text-primary">receipt_long</span>
+            </div>
+            @if (Model.ChallanNumber is not null)
+            {
+                <div class="mt-3 pt-2 border-t border-surface-container-high flex items-center justify-between text-xs">
+                    <span class="text-on-surface-variant tabular-nums">Challan #@Model.ChallanNumber</span>
+                    <span class="px-2 py-0.5 rounded bg-success-surface text-success font-medium">Verified Paid</span>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 xl:grid-cols-[1fr_360px] gap-6">
+        <!-- Courses -->
+        <section class="bg-surface rounded-xl shadow-card p-5">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-lg font-semibold text-on-surface flex items-center gap-2">
+                    <span class="w-1 h-5 bg-primary rounded-full"></span>
+                    Current Semester Enrolled Courses &amp; Attendance
+                </h2>
+                <div class="hidden sm:flex items-center gap-3 text-xs text-on-surface-variant">
+                    <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-success"></span>&ge;85%</span>
+                    <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-gold"></span>80-84%</span>
+                    <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-critical"></span>&lt;80%</span>
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-4">
+                @foreach (var course in Model.Courses)
+                {
+                    var barColor = course.AttendanceRiskLabel switch
+                    {
+                        "Safe" => "bg-success",
+                        "AtRisk" => "bg-gold",
+                        _ => "bg-critical"
+                    };
+                    var badgeClasses = course.AttendanceRiskLabel switch
+                    {
+                        "Safe" => "bg-success-surface text-success",
+                        "AtRisk" => "bg-warning-surface text-warning",
+                        _ => "bg-critical-surface text-critical"
+                    };
+                    var badgeLabel = course.AttendanceRiskLabel == "Safe" ? "Admit Safe"
+                        : course.AttendanceRiskLabel == "AtRisk" ? "Watch Attendance" : "Admit Card At Risk";
+
+                    <div class="border border-outline rounded-lg p-4">
+                        <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-2">
+                            <div class="flex items-start gap-3">
+                                <div class="w-10 h-10 rounded-md bg-gold-tint text-primary-deep flex items-center justify-center text-xs font-bold flex-shrink-0">
+                                    @course.Code[..3]
+                                </div>
+                                <div>
+                                    <div class="flex items-center gap-2 flex-wrap">
+                                        <span class="font-semibold text-on-surface text-sm">@course.Code</span>
+                                        <span class="text-xs text-on-surface-variant">@course.CreditHours Cr</span>
+                                    </div>
+                                    <p class="font-medium text-on-surface">@course.Title</p>
+                                    <p class="text-xs text-on-surface-variant">Instructor: @course.InstructorName</p>
+                                </div>
+                            </div>
+                            <div class="text-right flex-shrink-0">
+                                @if (course.MidtermMarks is not null)
+                                {
+                                    <div class="text-xs text-on-surface-variant">Midterm</div>
+                                    <div class="text-sm font-semibold text-on-surface tabular-nums">@course.MidtermMarks/@course.MidtermTotal</div>
+                                    <div class="text-xs text-on-surface-variant mt-0.5">Grade <span class="font-semibold text-on-surface">@course.Grade</span></div>
+                                }
+                                else
+                                {
+                                    <span class="text-xs px-2 py-0.5 rounded bg-surface-container text-on-surface-variant">In Progress</span>
+                                }
+                            </div>
+                        </div>
+
+                        @if (course.SessionsTotal > 0)
+                        {
+                            <div class="mt-3 flex items-center justify-between text-xs mb-1">
+                                <span class="text-on-surface-variant">Attendance: <strong class="text-on-surface tabular-nums">@course.AttendancePercentage.ToString("0.#")%</strong> (@course.SessionsAttended of @course.SessionsTotal sessions)</span>
+                                <span class="px-2 py-0.5 rounded @badgeClasses font-medium">@badgeLabel</span>
+                            </div>
+                            <div class="h-1.5 w-full rounded-full bg-surface-container-high overflow-hidden">
+                                <div class="h-full @barColor rounded-full" style="width: @(course.AttendancePercentage.ToString("0.#"))%"></div>
+                            </div>
+                            @if (course.AttendanceRiskLabel == "Critical")
+                            {
+                                <p class="text-xs text-critical mt-1.5">Must attend upcoming lectures to cross the mandatory 80% cutoff for the terminal examination.</p>
+                            }
+                        }
+                        else
+                        {
+                            <div class="mt-3 flex items-center justify-between text-xs">
+                                <span class="text-on-surface-variant">Project Milestones</span>
+                                <span class="px-2 py-0.5 rounded bg-gold-tint text-primary-deep font-medium">Active</span>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </section>
+
+        <!-- Sidebar -->
+        <div class="flex flex-col gap-6">
+            <section class="bg-primary text-on-primary rounded-xl shadow-card p-5">
+                <h2 class="text-base font-semibold flex items-center gap-2 mb-1">
+                    <span class="material-symbols-outlined text-gold text-[20px]">bolt</span>
+                    Quick Actions
+                </h2>
+                <p class="text-xs text-white/70 mb-4">Direct access to institutional forms and student verification.</p>
+                <div class="flex flex-col gap-2">
+                    <a asp-controller="Modules" asp-action="ComingSoon" asp-route-name="Admit Card Download" class="flex items-center justify-between bg-primary-deep hover:bg-primary-deep/80 transition-colors rounded-md px-3 py-2.5 text-sm">
+                        <span class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px] text-gold">badge</span> Download Admit Card (Roll Slip)</span>
+                        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                    </a>
+                    <a asp-controller="Modules" asp-action="ComingSoon" asp-route-name="Fee & Accounts" class="flex items-center justify-between bg-primary-deep hover:bg-primary-deep/80 transition-colors rounded-md px-3 py-2.5 text-sm">
+                        <span class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px] text-gold">receipt_long</span> View Paid Fee Challan</span>
+                        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                    </a>
+                    <a asp-controller="Modules" asp-action="ComingSoon" asp-route-name="Course Registration" class="flex items-center justify-between bg-primary-deep hover:bg-primary-deep/80 transition-colors rounded-md px-3 py-2.5 text-sm">
+                        <span class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px] text-gold">how_to_reg</span> Course Registration Portal</span>
+                        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                    </a>
+                </div>
+            </section>
+
+            <section class="bg-surface rounded-xl shadow-card p-5">
+                <div class="flex items-center justify-between mb-3">
+                    <h2 class="text-base font-semibold text-on-surface flex items-center gap-2">
+                        <span class="w-1 h-5 bg-primary rounded-full"></span>
+                        Today's Timetable
+                    </h2>
+                    <span class="text-xs px-2 py-0.5 rounded bg-surface-container text-on-surface-variant">@DateTime.Now.DayOfWeek</span>
+                </div>
+                @if (Model.TodaysTimetable.Count == 0)
+                {
+                    <p class="text-sm text-on-surface-variant">No scheduled sessions today.</p>
+                }
+                else
+                {
+                    <div class="flex flex-col gap-3">
+                        @foreach (var slot in Model.TodaysTimetable)
+                        {
+                            <div class="flex gap-3">
+                                <div class="text-xs text-on-surface-variant w-16 flex-shrink-0 tabular-nums">@slot.StartTime<br />@slot.EndTime</div>
+                                <div class="border-l-2 border-gold pl-3 pb-1">
+                                    <p class="text-sm font-medium text-on-surface">@slot.CourseTitle</p>
+                                    <p class="text-xs text-on-surface-variant">@slot.Location &middot; @slot.InstructorName</p>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+            </section>
+
+            <section class="bg-surface rounded-xl shadow-card p-5">
+                <h2 class="text-base font-semibold text-on-surface flex items-center gap-2 mb-3">
+                    <span class="w-1 h-5 bg-primary rounded-full"></span>
+                    Announcements &amp; Alerts
+                </h2>
+                <div class="flex flex-col gap-3">
+                    @foreach (var item in Model.Announcements)
+                    {
+                        <div class="border-b border-outline last:border-b-0 pb-3 last:pb-0">
+                            <div class="flex items-center justify-between text-xs mb-1">
+                                <span class="font-semibold text-primary uppercase tracking-wide">@item.Category</span>
+                                <span class="text-on-surface-muted">@item.RelativeTime</span>
+                            </div>
+                            <p class="text-sm font-medium text-on-surface">@item.Title</p>
+                            <p class="text-xs text-on-surface-variant mt-0.5">@item.Body</p>
+                        </div>
+                    }
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- GPA history -->
+    <section class="bg-surface rounded-xl shadow-card p-5">
+        <div class="flex items-center justify-between mb-1">
+            <h2 class="text-lg font-semibold text-on-surface">GPA History &amp; Semester Trajectory</h2>
+            <div class="flex items-center gap-3 text-xs text-on-surface-variant">
+                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-gold"></span>SGPA</span>
+                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-primary"></span>CGPA</span>
+            </div>
+        </div>
+        <p class="text-xs text-on-surface-variant mb-5">Progression from Semester 1 to Semester @Model.GpaHistory.Count</p>
+
+        <div class="flex items-end gap-4 md:gap-8 h-40 px-2">
+            @foreach (var point in Model.GpaHistory)
+            {
+                var heightPct = maxCgpaInHistory == 0 ? 0 : (double)(point.Cgpa / maxCgpaInHistory) * 100;
+                <div class="flex-1 flex flex-col items-center justify-end h-full">
+                    <span class="text-xs font-semibold tabular-nums mb-1 @(point.IsInProgress ? "text-primary" : "text-on-surface-variant")">@point.Cgpa.ToString("0.00")</span>
+                    <div class="w-full max-w-10 rounded-t-md @(point.IsInProgress ? "bg-primary" : "bg-gold-tint")" style="height: @(heightPct.ToString("0.#"))%"></div>
+                    <span class="text-xs text-on-surface-variant mt-2">@(point.IsInProgress ? "Current" : point.SemesterLabel.Split(' ')[0] + " " + point.SemesterLabel.Split(' ')[1][2..])</span>
+                </div>
+            }
+        </div>
+    </section>
+</div>

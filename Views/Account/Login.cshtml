@@ -1,0 +1,190 @@
+@model LoginViewModel
+@{
+    ViewData["Title"] = "Sign In";
+    Layout = "_LoginLayout";
+
+    var campuses = new[]
+    {
+        "Islamabad Main Campus",
+        "Lahore Campus",
+        "Wah Campus",
+        "Abbottabad Campus",
+        "Attock Campus",
+        "Sahiwal Campus"
+    };
+}
+
+<div class="flex flex-col w-full max-w-5xl">
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4 px-1">
+        <div class="flex items-center gap-3">
+            <span class="inline-flex items-center gap-2 px-3 py-1 bg-surface-container-low rounded text-primary text-xs font-semibold tabular-nums">
+                <span class="w-1.5 h-1.5 rounded-full bg-gold"></span>
+                CU-SIS SECURE ACCESS v4.8
+            </span>
+            <span class="hidden sm:inline text-on-surface-variant text-xs">|</span>
+            <span class="hidden sm:inline text-on-surface-variant text-xs tracking-wide uppercase">Institutional Gateway</span>
+        </div>
+        <div class="inline-flex items-center gap-2 px-3 py-1 bg-gold-tint text-primary-deep rounded text-xs font-semibold">
+            <span class="material-symbols-outlined text-base">school</span>
+            Academic Year 2024-2025 (Fall)
+        </div>
+    </div>
+
+    <div class="w-full bg-surface rounded-xl shadow-raised overflow-hidden grid grid-cols-1 lg:grid-cols-12">
+        <!-- Brand panel -->
+        <div class="lg:col-span-5 bg-primary text-on-primary p-8 md:p-10 flex flex-col justify-between relative overflow-hidden">
+            <div class="relative z-10">
+                <div class="flex items-center gap-4 mb-8">
+                    <div class="w-14 h-14 rounded-lg bg-primary-deep flex items-center justify-center flex-shrink-0">
+                        <svg class="w-7 h-7 text-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <path d="M12 3 2 8l10 5 10-5-10-5Z" />
+                            <path d="M6 10.5V16c0 1.5 2.7 3 6 3s6-1.5 6-3v-5.5" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-bold tracking-tight uppercase leading-none">COMSATS</h2>
+                        <p class="text-xs font-medium tracking-wider uppercase mt-1 text-white/80">University Islamabad</p>
+                        <p class="text-[10px] font-semibold tracking-widest uppercase mt-0.5 text-gold">Student Portal</p>
+                    </div>
+                </div>
+                <div class="space-y-3">
+                    <span class="inline-block px-2 py-0.5 rounded bg-white/10 text-white/80 text-xs">CU-SIS v4.8</span>
+                    <h3 class="text-2xl font-semibold leading-tight">Student Information System</h3>
+                    <p class="text-sm text-white/75 leading-relaxed max-w-sm">
+                        Central academic hub for course enrollment, semester grade sheets, biometric attendance, and fee vouchers.
+                    </p>
+                </div>
+            </div>
+
+            <div class="relative z-10 my-6 rounded-lg overflow-hidden border border-white/10">
+                <svg viewBox="0 0 400 140" class="w-full h-32" preserveAspectRatio="xMidYMid slice">
+                    <rect width="400" height="140" fill="#4a0d1a" />
+                    <g stroke="#ffffff" stroke-opacity="0.12" stroke-width="1">
+                        <line x1="0" y1="20" x2="400" y2="20" /><line x1="0" y1="45" x2="400" y2="45" />
+                        <line x1="0" y1="70" x2="400" y2="70" /><line x1="0" y1="95" x2="400" y2="95" />
+                        <line x1="0" y1="120" x2="400" y2="120" />
+                    </g>
+                    <g fill="#d4af37" fill-opacity="0.9">
+                        <rect x="40" y="70" width="26" height="55" />
+                        <rect x="80" y="50" width="26" height="75" />
+                        <rect x="120" y="65" width="26" height="60" />
+                        <polygon points="93,25 60,55 126,55" fill="#ffffff" fill-opacity="0.9" />
+                    </g>
+                    <g fill="#ffffff" fill-opacity="0.15">
+                        <rect x="200" y="60" width="180" height="65" />
+                        <rect x="215" y="75" width="14" height="18" /><rect x="240" y="75" width="14" height="18" />
+                        <rect x="265" y="75" width="14" height="18" /><rect x="290" y="75" width="14" height="18" />
+                        <rect x="315" y="75" width="14" height="18" /><rect x="340" y="75" width="14" height="18" />
+                    </g>
+                </svg>
+                <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white text-xs">
+                    <span class="flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-base text-gold">domain</span>
+                        Islamabad Main Campus
+                    </span>
+                    <span>EST. 1998</span>
+                </div>
+            </div>
+
+            <div class="relative z-10 space-y-2">
+                <p class="flex items-start gap-2 text-xs text-white/70 leading-relaxed">
+                    <span class="material-symbols-outlined text-base text-gold">shield</span>
+                    Federated Single Sign-On (SSO) protected with 256-bit institutional encryption.
+                </p>
+                <div class="flex items-center justify-between text-[11px] text-white/60 pt-2 border-t border-white/10">
+                    <span>Chartered by Govt of Pakistan</span>
+                    <span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-gold"></span>HEC Ranked 'W'</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form panel -->
+        <div class="lg:col-span-7 p-8 md:p-10 flex flex-col justify-center">
+            <p class="text-xs font-semibold tracking-widest uppercase text-primary mb-1">Portal Authentication</p>
+            <h1 class="text-3xl font-bold text-on-surface tracking-tight mb-1">Student Portal Login</h1>
+            <p class="text-sm text-on-surface-variant mb-6">Sign in with your University Registration ID or official campus email.</p>
+
+            <div class="mb-5 rounded-md border border-gold/40 bg-gold-tint px-4 py-3 text-xs text-primary-deep">
+                <strong class="font-semibold">Demo access for reviewers:</strong>
+                Campus <span class="tabular-nums">Islamabad Main Campus</span> ·
+                ID <span class="tabular-nums">@DbSeeder.DemoRegistrationId</span> ·
+                Password <span class="tabular-nums">@DbSeeder.DemoPassword</span>
+            </div>
+
+            <form asp-controller="Account" asp-action="Login" method="post" novalidate>
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="ReturnUrl" />
+                <div asp-validation-summary="All" class="mb-4 text-sm text-critical"></div>
+
+                <div class="mb-4">
+                    <label asp-for="CampusName" class="block text-sm font-medium text-on-surface mb-1.5">Campus Affiliation <span class="text-critical">*</span></label>
+                    <select asp-for="CampusName" class="field-input w-full h-10 rounded-md border border-outline bg-surface px-3 text-sm">
+                        <option value="">Select your registered campus...</option>
+                        @foreach (var campus in campuses)
+                        {
+                            <option value="@campus">@campus</option>
+                        }
+                    </select>
+                    <span asp-validation-for="CampusName" class="text-xs text-critical"></span>
+                </div>
+
+                <div class="mb-4">
+                    <div class="flex items-center justify-between mb-1.5">
+                        <label asp-for="RegistrationIdOrEmail" class="text-sm font-medium text-on-surface">Registration ID or Campus Email <span class="text-critical">*</span></label>
+                        <span class="text-xs text-on-surface-muted">e.g. FA21-BCS-084</span>
+                    </div>
+                    <input asp-for="RegistrationIdOrEmail" class="field-input w-full h-10 rounded-md border border-outline bg-surface px-3 text-sm" placeholder="SP22-BCS-041 or name@isb.student.comsats.edu.pk" autocomplete="username" />
+                    <span asp-validation-for="RegistrationIdOrEmail" class="text-xs text-critical"></span>
+                </div>
+
+                <div class="mb-4">
+                    <div class="flex items-center justify-between mb-1.5">
+                        <label asp-for="Password" class="text-sm font-medium text-on-surface">Secret Password / CU-PIN <span class="text-critical">*</span></label>
+                        <a asp-controller="Account" asp-action="ForgotPassword" class="text-xs font-medium text-primary hover:underline">Forgot Password / Reset PIN?</a>
+                    </div>
+                    <div class="relative">
+                        <input asp-for="Password" id="password-field" type="password" class="field-input w-full h-10 rounded-md border border-outline bg-surface px-3 pr-10 text-sm" autocomplete="current-password" />
+                        <button type="button" id="toggle-password" class="absolute inset-y-0 right-0 flex items-center pr-3 text-on-surface-muted" aria-label="Show password">
+                            <span class="material-symbols-outlined text-[20px]">visibility</span>
+                        </button>
+                    </div>
+                    <span asp-validation-for="Password" class="text-xs text-critical"></span>
+                </div>
+
+                <div class="flex items-center justify-between mb-6">
+                    <label class="flex items-center gap-2 text-sm text-on-surface-variant">
+                        <input asp-for="RememberMe" type="checkbox" class="h-4 w-4 rounded border-outline text-primary focus:ring-primary" />
+                        Remember this terminal for 14 days
+                    </label>
+                    <span class="text-xs text-on-surface-muted flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[16px]">lock_clock</span>
+                        Session auto-expiry: 15m
+                    </span>
+                </div>
+
+                <button type="submit" class="btn-primary w-full h-11 rounded-md font-semibold text-sm flex items-center justify-center gap-2">
+                    Sign In to Student Portal
+                    <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                </button>
+            </form>
+
+            <div class="mt-6 pt-5 border-t border-outline flex items-center justify-between text-xs text-on-surface-variant">
+                <span>Helpdesk: support@comsats.edu.pk</span>
+                <span>UAN: +92-51-111-001-007</span>
+                <span>Room 104, Admin Block</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        document.getElementById('toggle-password').addEventListener('click', function () {
+            var field = document.getElementById('password-field');
+            var isHidden = field.type === 'password';
+            field.type = isHidden ? 'text' : 'password';
+            this.setAttribute('aria-label', isHidden ? 'Hide password' : 'Show password');
+        });
+    </script>
+}

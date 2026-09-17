@@ -1,0 +1,18 @@
+## .NET build output
+bin/
+obj/
+.vs/
+
+## Tool-generated local run and verification output
+.codex-run/
+.codex-verify/
+.codex-verify-dashboard/
+
+## IDE settings
+.idea/
+.vscode/
+*.user
+*.suo
+
+## Logs
+*.log

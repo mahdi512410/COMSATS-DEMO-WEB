@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] · COMSATS Student Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="~/js/tailwind-config.js"></script>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body class="bg-background font-sans text-on-surface antialiased min-h-screen flex flex-col">
+    <main class="w-full flex-1 flex items-center justify-center p-4 md:p-8">
+        @RenderBody()
+    </main>
+    <footer class="w-full border-t border-surface-container-high bg-surface">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between gap-2 text-xs text-on-surface-variant">
+            <span>&copy; @DateTime.Now.Year COMSATS University Islamabad (CUI). All Rights Reserved.</span>
+            <div class="flex items-center gap-4">
+                <a href="#" class="hover:text-on-surface">Portal Security Policy</a>
+                <a href="#" class="hover:text-on-surface">Acceptable Use Guideline</a>
+                <a href="#" class="hover:text-on-surface">Registrar Secretariat</a>
+            </div>
+        </div>
+    </footer>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,93 @@
+/* Supporting styles that sit alongside Tailwind's utility classes.
+   Keep this file small: anything expressible as a utility class belongs
+   in the markup, not here. */
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-feature-settings: "tnum" 0;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Press feedback fires on pointer-down territory via :active, per the
+   "respond instantly" principle -- not a delayed hover-only transition. */
+.btn-primary,
+.btn-secondary,
+.btn-tertiary {
+  transition: background-color 150ms ease, border-color 150ms ease, transform 100ms ease;
+}
+.btn-primary:active,
+.btn-secondary:active,
+.btn-tertiary:active {
+  transform: scale(0.98);
+}
+
+.btn-primary {
+  background-color: #6b1226;
+  color: #ffffff;
+  border: 1px solid #4a0d1a;
+}
+.btn-primary:hover {
+  background-color: #4a0d1a;
+}
+.btn-primary:focus-visible {
+  outline: 2px solid #d4af37;
+  outline-offset: 2px;
+}
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background-color: #ffffff;
+  color: #1f2937;
+  border: 1px solid #e5e7eb;
+}
+.btn-secondary:hover {
+  background-color: #f8f9fa;
+  border-color: #1f2937;
+}
+
+.field-input {
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+.field-input:focus {
+  outline: none;
+  border-color: #6b1226;
+  box-shadow: 0 0 0 3px rgba(107, 18, 38, 0.12);
+}
+
+/* Initials avatar -- used in place of stock or AI-generated headshots. */
+.avatar-initials {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #ffffff;
+  background: linear-gradient(135deg, #6b1226, #4a0d1a);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media print {
+  header, .no-print {
+    display: none !important;
+  }
+  body {
+    background: #ffffff;
+  }
+}

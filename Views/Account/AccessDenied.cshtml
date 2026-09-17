@@ -1,0 +1,13 @@
+@{
+    ViewData["Title"] = "Access Denied";
+    Layout = "_LoginLayout";
+}
+
+<div class="w-full max-w-md bg-surface rounded-xl shadow-raised p-8 text-center">
+    <div class="w-11 h-11 rounded-lg bg-critical-surface flex items-center justify-center mb-4 mx-auto">
+        <span class="material-symbols-outlined text-critical">block</span>
+    </div>
+    <h1 class="text-xl font-bold text-on-surface mb-2">Access Denied</h1>
+    <p class="text-sm text-on-surface-variant leading-relaxed mb-6">You don't have permission to view that part of the portal.</p>
+    <a asp-controller="Account" asp-action="Login" class="btn-secondary w-full h-10 rounded-md text-sm font-medium flex items-center justify-center">Back to Sign In</a>
+</div>
